@@ -2,6 +2,9 @@ import Mathlib.Algebra.Group.Defs
 import Mathlib.Data.Nat.Basic
 import Abaplot.monads.selection_aug
 import Mathlib.Init.Algebra.Classes
+import Mathlib.Data.Real.Basic
+import Mathlib.Data.Fintype.Basic
+import Mathlib.Algebra.BigOperators.Basic
 
 /-
 We introduce *barycentric* algebras, which are a commutative monoid R equipped with binary probabilistic choice functions [0,1] → R² → R where certain probabilistic inequalities hold.
@@ -9,7 +12,7 @@ I'm too lazy to implement the interval [0,1] (as *reals aren't in mathlib4 yet!!
 -/
 
 class BarycentricAlgebra (R : Type) where
-  choice_p : Float → R → R → R
+  choice_p : Real → R → R → R
   left_unitp x y : choice_p 1 x y = x
   id p x : choice_p p x x = x
   invert p x y : choice_p p x y = choice_p (1 - p) y x
@@ -24,8 +27,8 @@ class RewardOrder (R : Type) (Ord : R → R → Prop) extends IsTotal R Ord wher
   pres_choice_p : ∀ p r s t,  Ord r s ↔ Ord (bcm.choice_p p r t) (bcm.choice_p p s t)
   pres_add : ∀ r s t, Ord r s ↔ Ord (bcm.mul s t) (bcm.mul s t)
 
+class FiniteProbDistr (supp : Finset X) where
+  fn : X → ℝ 
+  sum_to_one : Finset.sum supp fn = 1
 
-class Discrete_Probability_Distr (X : Type) where
-  fn : X → Float
-  finite_zeros : Finite (Subtype (λ x => fn x ≠ 0))
-  sum_to_one : 
+

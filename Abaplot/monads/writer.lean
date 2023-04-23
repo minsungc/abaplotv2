@@ -28,3 +28,4 @@ instance [CommMonoid R] : Algebra (writer (R := R)) R where
 -- selection monad augmented with writer
 def select_aug_with_writer [CommMonoid R] := select_aug (T := writer (R:= R)) (R := R) 
 
+
